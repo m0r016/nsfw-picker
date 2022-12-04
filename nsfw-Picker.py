@@ -51,7 +51,7 @@ for image_path in image_paths:
     # 画像がNSFWであるかどうかを判定
     is_nsfw = n2.predict_image(image_path)
 
-    if is_nsfw >= threshold:
+    if is_nsfw >= float(threshold):
         # 画像がNSFWであれば、別のディレクトリに移動
         shutil.copy(image_path, nsfw_dir)
         print("NSFW: " + image_path)
