@@ -6,12 +6,13 @@ nsfw-pickerは、[opennsfw2](https://github.com/bhky/opennsfw2)を使用して�
 - opennsfw2
 - ConfigParser
 - shutil
+- tqdm
 
 
 # セットアップ
 1. このリポジトリをクローンまたはダウンロードします。
 2. pipを使用して必要なパッケージをインストールします。
-`pip install opennsfw2 ConfigParser shutil`
+`pip install -r requirements.txt`
 3. 次のような内容のconfig.iniファイルをプロジェクトのルートディレクトリに作成し、パスを実際のシステム上のパスに置き換えます。
 ```
 [path]
