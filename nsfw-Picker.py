@@ -22,6 +22,8 @@ for image_dir in image_dirs:
 
     # 指定されたディレクトリ内を再帰的に探索
     for root, dirs, files in os.walk(image_dir):
+        # サブディレクトリは探索しない
+        dirs[:] = []
 
         # 探索されたディレクトリ内の全ての画像のパスを取得
         for file_name in files:
