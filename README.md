@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ```
 
 ## 3. config.iniを作成
-`nsfwPicker.py`と同じディレクトリに`config.ini`を作成します。
+`nsfw-Picker.py`と同じディレクトリに`config.ini`を作成します。
 内容は
 ```
 [path]
@@ -25,5 +25,5 @@ nsfw_dir = NSFW画像の出力先
 
 ## 4. 実行
 ```
-python3 nsfwPicker.py
+python3 nsfw-Picker.py
 ```
