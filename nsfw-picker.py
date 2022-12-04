@@ -21,7 +21,10 @@ threshold = config["threshold"]["threshold"]
 image_paths = []
 
 # 指定されたディレクトリ内を再帰的に探索
-for root, dirs, files in os.walk(image_dir):
+for root, dirs, files in tqdm(
+    os.walk(image_dir),
+    desc="Reading images",
+    total=sum([len(files) for r, d, files in os.walk(image_dir)])):
 
     # 探索されたディレクトリ内の全ての画像のパスを取得
     for file_name in files:
@@ -36,7 +39,12 @@ for root, dirs, files in os.walk(image_dir):
 allow_extensions = ["jpg", "png", "jpeg"]
 
 # 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
-for image_path in tqdm(image_paths):
+for image_path in tqdm(
+    image_paths,
+    desc="Filtering images...",
+    total=len(image_paths),
+    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]"
+    ):
 
     # ファイルが存在しない、もしくはディレクトリである場合はスキップ
     if not os.path.exists(image_path) or os.path.isdir(image_path):
