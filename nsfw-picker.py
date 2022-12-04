@@ -2,7 +2,7 @@ from configparser import ConfigParser
 import os
 import shutil
 import opennsfw2 as n2
-import tqdm
+from tqdm import tqdm
 
 # 設定を読み込む
 config = ConfigParser()
