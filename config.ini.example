@@ -1,6 +1,9 @@
 [path]
-image_dirs = /hoge, /fuga
-nsfw_dir = /hoge/nsfw
+# 検出するディレクトリ
+image_dir = /path/to/image/directory
+# nsfw画像の保存先
+nsfw_dir = /path/to/nsfw/directory
 
 [threshold]
-threshold = 0.5
+# nsfw画像と判定する閾値
+threshold = 0.8

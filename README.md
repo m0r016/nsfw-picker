@@ -1,26 +1,27 @@
-# nsfw-Picker
-[opennsfw2](https://github.com/bhky/opennsfw2)を用いて、画像(`jpg,png,jpeg`)ファイルをNSFWかどうかを判定するツールです。
+# nsfw-picker
+nsfw-pickerは、[opennsfw2](https://github.com/bhky/opennsfw2)を使用して、NSFWなら画像を別のディレクトリに保存します。
 
-# 使い方
-## 1. githubからソースをダウンロード
-```
-git clone https://github.com/m0r016/nsfw-picker.git
-cd nsfw-picker
-```
+# 前提条件
+- Python 3
+- opennsfw2
+- ConfigParser
+- shutil
+- tqdm
+yy
 
-## 2. ライブラリをインストール
+# セットアップ
+1. このリポジトリをクローンまたはダウンロードします。
+2. pipを使用して必要なパッケージをインストールします。
+`pip install -r requirements.txt`
+3. 次のような内容のconfig.iniファイルをプロジェクトのルートディレクトリに作成し、パスを実際のシステム上のパスに置き換えます。
 ```
-pip install -r requirements.txt
-```
+[path]
+image_dir = /path/to/image/directory
+nsfw_dir = /path/to/nsfw/directory
 
-## 3. config.iniを作成
-`nsfw-Picker.py`と同じディレクトリに`config.ini.example`をコピーして内容を書き換え、`config.ini`という名前に変更してください。
+[threshold]
+threshold = 0.8
 ```
-cp config.ini.example config.ini
-nano config.ini
-```
-
-## 4. 実行
-```
-python3 nsfw-Picker.py
-```
+# コードの実行
+コードを実行するには、Pythonを使用してnsfw-picker.pyを実行します。
+`python nsfw-picker.py`

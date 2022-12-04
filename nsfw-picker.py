@@ -2,6 +2,7 @@ from configparser import ConfigParser
 import os
 import shutil
 import opennsfw2 as n2
+from tqdm import tqdm
 
 # 設定を読み込む
 config = ConfigParser()
@@ -9,7 +10,7 @@ config.read("config.ini")
 
 # NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
-
+    
 # 閾値
 threshold = config["threshold"]["threshold"]
 
@@ -17,28 +18,35 @@ threshold = config["threshold"]["threshold"]
 image_dirs = config["path"]["image_dirs"]
 for image_dir in image_dirs:
 
-    # 画像を判定するディレクトリ内の全ての画像のパスを取得
-    image_paths = []
+# 指定されたディレクトリ内を再帰的に探索
+for root, dirs, files in tqdm(
+    os.walk(image_dir),
+    desc="Reading images",
+    total=sum([len(files) for r, d, files in os.walk(image_dir)])):
 
     # 指定されたディレクトリ内を再帰的に探索
     for root, dirs, files in os.walk(image_dir):
         # サブディレクトリは探索しない
         dirs[:] = []
 
-        # 探索されたディレクトリ内の全ての画像のパスを取得
-        for file_name in files:
-
-            # 画像のパスを生成
-            image_path = os.path.join(root, file_name)
-            image_paths.append(image_path)
-            print('image_path', image_path)
-            print('image_paths', image_paths)
+        # 画像のパスを生成
+        image_path = os.path.join(root, file_name)
+        image_paths.append(image_path)
 
 # 拡張子が許可されているものか
 allow_extensions = ["jpg", "png", "jpeg"]
 
+# NSFW画像を保存するためのディレクトリが存在しない場合は作成する
+if not os.path.exists(nsfw_dir):
+    os.makedirs(nsfw_dir)
+    
 # 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
-for image_path in image_paths:
+for image_path in tqdm(
+    image_paths,
+    desc="Filtering images...",
+    total=len(image_paths),
+    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]"
+    ):
 
     # ファイルが存在しない、もしくはディレクトリである場合はスキップ
     if not os.path.exists(image_path) or os.path.isdir(image_path):
@@ -54,7 +62,8 @@ for image_path in image_paths:
     # 画像がNSFWであるかどうかを判定
     is_nsfw = n2.predict_image(image_path)
 
-    if is_nsfw >= threshold:
+    if is_nsfw >= float(threshold):
         # 画像がNSFWであれば、別のディレクトリに移動
         shutil.copy(image_path, nsfw_dir)
         print("NSFW: " + image_path)
+

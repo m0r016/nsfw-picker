@@ -1,1 +1,4 @@
 opennsfw2
+ConfigParser
+shutil
+tqdm
