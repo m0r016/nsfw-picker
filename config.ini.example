@@ -1,0 +1,4 @@
+[path]
+image_dirs = /hoge. /fuga
+nsfw_dir = /hoge/nsfw
+threshold = 0.5

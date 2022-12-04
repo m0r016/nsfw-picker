@@ -7,29 +7,30 @@ import opennsfw2 as n2
 config = ConfigParser()
 config.read("config.ini")
 
-# 画像を判定するディレクトリのパス
-image_dir = config["path"]["image_dir"]
-
 # NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
 
 # 閾値
 threshold = config["threshold"]["threshold"]
 
-# 画像を判定するディレクトリ内の全ての画像のパスを取得
-image_paths = []
+# 複数のディレクトリから画像を検知する
+image_dirs = config["path"]["image_dirs"]
+for image_dir in image_dirs:
 
-# 指定されたディレクトリ内を再帰的に探索
-for root, dirs, files in os.walk(image_dir):
+    # 画像を判定するディレクトリ内の全ての画像のパスを取得
+    image_paths = []
 
-    # 探索されたディレクトリ内の全ての画像のパスを取得
-    for file_name in files:
+    # 指定されたディレクトリ内を再帰的に探索
+    for root, dirs, files in os.walk(image_dir):
 
-        # 画像のパスを生成
-        image_path = os.path.join(root, file_name)
-        image_paths.append(image_path)
-        print('image_path', image_path)
-        print('image_paths', image_paths)
+        # 探索されたディレクトリ内の全ての画像のパスを取得
+        for file_name in files:
+
+            # 画像のパスを生成
+            image_path = os.path.join(root, file_name)
+            image_paths.append(image_path)
+            print('image_path', image_path)
+            print('image_paths', image_paths)
 
 # 拡張子が許可されているものか
 allow_extensions = ["jpg", "png", "jpeg"]
