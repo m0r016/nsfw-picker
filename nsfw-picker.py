@@ -20,6 +20,12 @@ threshold = config["threshold"]["threshold"]
 # 画像を判定するディレクトリ内の全ての画像のパスを取得
 image_paths = []
 
+# 指定されたディレクトリが存在しない場合は、プログラムを終了する
+for image_dir in image_dirs:
+    if not os.path.exists(image_dir):
+        print("Error: Directory does not exist: " + image_dir)
+        exit()
+
 # 複数のディレクトリを指定して、指定された全てのディレクトリ内を再帰的に探索
 for image_dir in image_dirs:
     for root, dirs, files in tqdm(
