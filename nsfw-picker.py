@@ -12,7 +12,7 @@ image_dir = config["path"]["image_dir"]
 
 # NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
-
+    
 # 閾値
 threshold = config["threshold"]["threshold"]
 
@@ -34,6 +34,10 @@ for root, dirs, files in os.walk(image_dir):
 # 拡張子が許可されているものか
 allow_extensions = ["jpg", "png", "jpeg"]
 
+# NSFW画像を保存するためのディレクトリが存在しない場合は作成する
+if not os.path.exists(nsfw_dir):
+    os.makedirs(nsfw_dir)
+    
 # 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
 for image_path in image_paths:
 
