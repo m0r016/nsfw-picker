@@ -1,8 +1,8 @@
 [path]
 # 検出するディレクトリ
-image_dir = /path/to/image/directory
+image_dirs = /path/to/image/directory, /path/to/image/directory1
 # nsfw画像の保存先
-nsfw_dir = /path/to/nsfw/directory
+nsfw_dir = /path/to/nsfw
 
 [threshold]
 # nsfw画像と判定する閾値
