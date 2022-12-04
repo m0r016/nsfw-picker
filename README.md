@@ -4,7 +4,8 @@
 # 使い方
 ## 1. githubからソースをダウンロード
 ```
-git clone 
+git clone https://github.com/m0r016/nsfw-picker.git
+cd nsfw-picker
 ```
 
 ## 2. ライブラリをインストール
