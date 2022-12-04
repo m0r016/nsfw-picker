@@ -20,6 +20,7 @@ pip install -r requirements.txt
 [path]
 input_dir = 入力ファイルのディレクトリ
 nsfw_dir = NSFW画像の出力先
+threshold = NSFWと判定する閾値
 ```
 としてください。
 

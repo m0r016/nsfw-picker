@@ -13,6 +13,9 @@ image_dir = config["path"]["image_dir"]
 # NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
 
+# 閾値
+threshold = config["threshold"]["threshold"]
+
 # 画像を判定するディレクトリ内の全ての画像のパスを取得
 image_paths = []
 
@@ -48,7 +51,7 @@ for image_path in image_paths:
     # 画像がNSFWであるかどうかを判定
     is_nsfw = n2.predict_image(image_path)
 
-    if is_nsfw >= 0.5:
+    if is_nsfw >= threshold:
         # 画像がNSFWであれば、別のディレクトリに移動
         shutil.copy(image_path, nsfw_dir)
         print("NSFW: " + image_path)
