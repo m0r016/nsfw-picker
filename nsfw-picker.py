@@ -24,7 +24,9 @@ image_paths = []
 for root, dirs, files in tqdm(
     os.walk(image_dir),
     desc="Reading images",
-    total=sum([len(files) for r, d, files in os.walk(image_dir)])):
+    total=sum([len(files) for r, d, files in os.walk(image_dir)]),
+    miniters=1
+    ):
 
     # 探索されたディレクトリ内の全ての画像のパスを取得
     for file_name in files:
@@ -45,7 +47,8 @@ for image_path in tqdm(
     image_paths,
     desc="Filtering images...",
     total=len(image_paths),
-    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]"
+    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
+    miniters=1
     ):
 
     # ファイルが存在しない、もしくはディレクトリである場合はスキップ
