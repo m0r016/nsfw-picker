@@ -2,6 +2,7 @@ from configparser import ConfigParser
 import os
 import shutil
 import opennsfw2 as n2
+import tqdm
 
 # 設定を読み込む
 config = ConfigParser()
@@ -35,7 +36,7 @@ for root, dirs, files in os.walk(image_dir):
 allow_extensions = ["jpg", "png", "jpeg"]
 
 # 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
-for image_path in image_paths:
+for image_path in tqdm(image_paths):
 
     # ファイルが存在しない、もしくはディレクトリである場合はスキップ
     if not os.path.exists(image_path) or os.path.isdir(image_path):
