@@ -14,15 +14,7 @@ pip install -r requirements.txt
 ```
 
 ## 3. config.iniを作成
-`nsfw-Picker.py`と同じディレクトリに`config.ini`を作成します。
-内容は
-```
-[path]
-input_dir = 入力ファイルのディレクトリ
-nsfw_dir = NSFW画像の出力先
-threshold = NSFWと判定する閾値
-```
-としてください。
+`nsfw-Picker.py`と同じディレクトリに`config.ini.example`をコピーして内容を書き換え、`config.ini`という名前に変更してください。
 
 ## 4. 実行
 ```
