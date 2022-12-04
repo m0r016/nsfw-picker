@@ -32,8 +32,6 @@ for root, dirs, files in tqdm(
         # 画像のパスを生成
         image_path = os.path.join(root, file_name)
         image_paths.append(image_path)
-        print('image_path', image_path)
-        print('image_paths', image_paths)
 
 # 拡張子が許可されているものか
 allow_extensions = ["jpg", "png", "jpeg"]
