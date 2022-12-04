@@ -55,3 +55,4 @@ for image_path in image_paths:
         # 画像がNSFWであれば、別のディレクトリに移動
         shutil.copy(image_path, nsfw_dir)
         print("NSFW: " + image_path)
+
