@@ -27,7 +27,7 @@ print("Now loading images...")
 load_bar = tqdm(
     image_dir,
     desc="Filtering images...",
-    total=len(image_paths),
+    total=len(image_dir),
     bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [Remaining: {remaining}]",
     miniters=1
 )
