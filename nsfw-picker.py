@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import shutil
 import opennsfw2 as n2
 from tqdm import tqdm
@@ -32,6 +33,8 @@ for root, dirs, files in os.walk(image_dir):
         image_path = os.path.join(root, file_name)
         image_paths.append(image_path)
 
+print("Total images: {}".format(len(image_paths)))
+
 # 拡張子が許可されているものか
 allow_extensions = ["jpg", "png", "jpeg"]
 
@@ -39,12 +42,14 @@ allow_extensions = ["jpg", "png", "jpeg"]
 if not os.path.exists(nsfw_dir):
     os.makedirs(nsfw_dir)
     
+print ("Filtering NSFW images...")
+
 # 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
 for image_path in tqdm(
     image_paths,
     desc="Filtering images...",
     total=len(image_paths),
-    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
+    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [Remaining: {remaining}]",
     miniters=1
     ):
 
@@ -66,4 +71,6 @@ for image_path in tqdm(
         # 画像がNSFWであれば、別のディレクトリに移動
         shutil.copy(image_path, nsfw_dir)
         print("NSFW: " + image_path)
+
+print("Done!")
 
