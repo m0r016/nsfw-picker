@@ -9,6 +9,15 @@ from configparser import ConfigParser
 config = ConfigParser()
 config.read("config.ini")
 
+# コマンドオプションを解析する
+parser = argparse.ArgumentParser()
+parser.add_argument("--thread", type=int, default=1, help="Number of threads to use")
+args = parser.parse_args()
+
+# 画像を判定するプロセス数
+num_processes = args.thread if args.thread > 0 else multiprocessing.cpu_count()
+
+
 # 画像を判定するディレクトリのパス
 image_dir = config["path"]["image_dir"]
 
@@ -89,3 +98,4 @@ for image_path in filter_bar:
 filter_bar.close()
 
 print("Done!")
+コマンドオプション--thread Nを追加して--thread Nが指定されたらmultiprocessingで並列処理したい。Nはプロセス数
