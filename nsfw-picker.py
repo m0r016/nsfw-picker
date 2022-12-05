@@ -21,13 +21,11 @@ threshold = config["threshold"]["threshold"]
 # 画像を判定するディレクトリ内の全ての画像のパスを取得
 image_paths = []
 
-print("Now loading images...")
-
 # tqdmを使用したプログレスバーを表示
 load_bar = tqdm(
     image_dir,
     total=len(image_paths),
-    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}",
+    bar_format="Now loading images: {n_fmt}",
     miniters=1
 )
 
