@@ -21,8 +21,16 @@ threshold = config["threshold"]["threshold"]
 # 画像を判定するディレクトリ内の全ての画像のパスを取得
 image_paths = []
 
+print("Now loading images...")
+
 # tqdmを使用したプログレスバーを表示
-load_bar = tqdm(total=len(image_paths), desc="Now loading images...")
+load_bar = tqdm(
+    image_dir,
+    desc="Filtering images...",
+    total=len(image_paths),
+    bar_format="{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [Remaining: {remaining}]",
+    miniters=1
+)
 
 # 指定されたディレクトリ内を再帰的に探索
 for root, dirs, files in os.walk(image_dir):
