@@ -20,11 +20,13 @@ threshold = config["threshold"]["threshold"]
 # 画像を判定するディレクトリ内の全ての画像のパスを取得
 image_paths = []
 
+total_files = sum([len(files) for r, d, files in os.walk(image_dir)])
+
 # 指定されたディレクトリ内を再帰的に探索
 for root, dirs, files in tqdm(
     os.walk(image_dir),
     desc="Reading images",
-    total=sum([len(files) for r, d, files in os.walk(image_dir)]),
+    total=total_files,
     miniters=1
     ):
 
