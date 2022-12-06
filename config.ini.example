@@ -1,6 +1,6 @@
 [path]
 # 検出するディレクトリ
-image_dirs = /path/to/image/directory, /path/to/image/directory1
+image_dirs = /path/to/image/directory,/path/to/image/directory1
 # nsfw画像の保存先
 nsfw_dir = /path/to/nsfw
 

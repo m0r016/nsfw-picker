@@ -10,7 +10,7 @@ config = ConfigParser()
 config.read("config.ini")
 
 # 画像を判定するディレクトリのパス
-image_dirs = config["path"]["image_dirs"]
+image_dirs = config["path"]["image_dirs"].split(",")
 
 # NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
@@ -23,21 +23,15 @@ image_paths = []
 
 # tqdmを使用したプログレスバーを表示
 load_bar = tqdm(
-    image_dir,
+    image_dirs,
     total=len(image_paths),
     bar_format="Now loading images: {n_fmt}",
     miniters=1
 )
 
 # 指定されたディレクトリ内を再帰的に探索
-for root, dirs, files in os.walk(image_dir):
-
-    # 複数のディレクトリを指定して、指定された全てのディレクトリ内を再帰的に探索
 for image_dir in image_dirs:
-    for root, dirs, files in tqdm(
-            os.walk(image_dir),
-            desc="Reading images",
-            total=sum([len(files) for r, d, files in os.walk(image_dir)])):
+    for root, dirs, files in os.walk(image_dir):
 
         # 探索されたディレクトリ内の全ての画像のパスを取得
         for file_name in files:
