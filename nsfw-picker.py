@@ -1,9 +1,9 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from configparser import ConfigParser
 import shutil
 import opennsfw2 as n2
 from tqdm import tqdm
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # 設定を読み込む
 config = ConfigParser()
