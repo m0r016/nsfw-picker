@@ -90,3 +90,4 @@ for image_path in filter_bar:
 filter_bar.close()
 
 print("Done!")
+print("Total nsfw images: {}".format(len(os.listdir(nsfw_dir))))
