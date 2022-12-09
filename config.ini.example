@@ -1,4 +1,19 @@
 [path]
-image_dirs = /hoge. /fuga
-nsfw_dir = /hoge/nsfw
-threshold = 0.5
+# 検出するディレクトリ
+image_dirs = /path/to/image/directory,/path/to/image/directory1
+# nsfw画像の保存先
+nsfw_dir = /path/to/nsfw
+
+[threshold]
+# nsfw画像と判定する閾値
+threshold = 0.8
+
+[minio]
+# minioのエンドポイント
+endpoint = minio.example.com
+# minioのアクセスキー
+access_key = minio
+# minioのシークレットキー
+secret_key = minio123
+# minioのバケット名
+bucket_names = minio_bucket
