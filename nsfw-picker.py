@@ -1,16 +1,16 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from configparser import ConfigParser
-import shutil
-import opennsfw2 as n2
 from tqdm import tqdm
+import opennsfw2 as n2
+import shutil
+from configparser import ConfigParser
 
 # 設定を読み込む
 config = ConfigParser()
 config.read("config.ini")
 
 # 画像を判定するディレクトリのパス
-image_dirs = config["path"]["image_dirs"].split(",")
+image_dir = config["path"]["image_dir"]
 
 # NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
@@ -23,22 +23,21 @@ image_paths = []
 
 # tqdmを使用したプログレスバーを表示
 load_bar = tqdm(
-    image_dirs,
+    image_dir,
     total=len(image_paths),
     bar_format="Now loading images: {n_fmt}",
     miniters=1
 )
 
 # 指定されたディレクトリ内を再帰的に探索
-for image_dir in image_dirs:
-    for root, dirs, files in os.walk(image_dir):
+for root, dirs, files in os.walk(image_dir):
 
-        # 探索されたディレクトリ内の全ての画像のパスを取得
-        for file_name in files:
+    # 探索されたディレクトリ内の全ての画像のパスを取得
+    for file_name in files:
 
-            # 画像のパスを生成
-            image_path = os.path.join(root, file_name)
-            image_paths.append(image_path)
+        # 画像のパスを生成
+        image_path = os.path.join(root, file_name)
+        image_paths.append(image_path)
 
     # プログレスバーを更新
     load_bar.update()
