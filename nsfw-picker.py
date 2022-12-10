@@ -9,16 +9,10 @@ from configparser import ConfigParser
 config = ConfigParser()
 config.read("config.ini")
 
-# 画像を判定するディレクトリのパス
 image_dir = config["path"]["image_dir"]
-
-# NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
-
-# 閾値
 threshold = config["threshold"]["threshold"]
-
-# 画像を判定するディレクトリ内の全ての画像のパスを取得
+allow_extensions = ["jpg", "png", "jpeg"]
 image_paths = []
 
 # tqdmを使用したプログレスバーを表示
@@ -46,12 +40,7 @@ for root, dirs, files in os.walk(image_dir):
 load_bar.close()
 print("Total images: {}".format(len(image_paths)))
 
-# 拡張子が許可されているものか
-allow_extensions = ["jpg", "png", "jpeg"]
-
 print("Filtering NSFW images...")
-
-# 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
 
 # tqdmを使用したプログレスバーを表示
 filter_bar = tqdm(
@@ -61,6 +50,7 @@ filter_bar = tqdm(
     miniters=1
 )
 
+# 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
 for image_path in filter_bar:
 
     # ファイルが存在しない、もしくはディレクトリである場合はスキップ
