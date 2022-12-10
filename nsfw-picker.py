@@ -4,6 +4,10 @@ from tqdm import tqdm
 import opennsfw2 as n2
 import shutil
 from configparser import ConfigParser
+import logging
+
+# ログのフォーマットを設定
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 # 設定を読み込む
 config = ConfigParser()
