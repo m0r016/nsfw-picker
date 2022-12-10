@@ -7,7 +7,7 @@ nsfw-pickerは、[opennsfw2](https://github.com/bhky/opennsfw2)を使用して�
 - ConfigParser
 - shutil
 - tqdm
-
+yy
 
 # セットアップ
 1. このリポジトリをクローンまたはダウンロードします。

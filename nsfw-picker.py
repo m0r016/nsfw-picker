@@ -9,25 +9,10 @@ from configparser import ConfigParser
 config = ConfigParser()
 config.read("config.ini")
 
-# コマンドオプションを解析する
-parser = argparse.ArgumentParser()
-parser.add_argument("--thread", type=int, default=1, help="Number of threads to use")
-args = parser.parse_args()
-
-# 画像を判定するプロセス数
-num_processes = args.thread if args.thread > 0 else multiprocessing.cpu_count()
-
-
-# 画像を判定するディレクトリのパス
 image_dir = config["path"]["image_dir"]
-
-# NSFW画像を保存するためのディレクトリへのパス
 nsfw_dir = config["path"]["nsfw_dir"]
-
-# 閾値
 threshold = config["threshold"]["threshold"]
-
-# 画像を判定するディレクトリ内の全ての画像のパスを取得
+allow_extensions = ["jpg", "png", "jpeg"]
 image_paths = []
 
 # tqdmを使用したプログレスバーを表示
@@ -55,16 +40,7 @@ for root, dirs, files in os.walk(image_dir):
 load_bar.close()
 print("Total images: {}".format(len(image_paths)))
 
-# 拡張子が許可されているものか
-allow_extensions = ["jpg", "png", "jpeg"]
-
-# NSFW画像を保存するためのディレクトリが存在しない場合は作成する
-if not os.path.exists(nsfw_dir):
-    os.makedirs(nsfw_dir)
-
 print("Filtering NSFW images...")
-
-# 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
 
 # tqdmを使用したプログレスバーを表示
 filter_bar = tqdm(
@@ -74,6 +50,7 @@ filter_bar = tqdm(
     miniters=1
 )
 
+# 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
 for image_path in filter_bar:
 
     # ファイルが存在しない、もしくはディレクトリである場合はスキップ
@@ -91,11 +68,23 @@ for image_path in filter_bar:
     is_nsfw = n2.predict_image(image_path)
 
     if is_nsfw >= float(threshold):
-        # 画像がNSFWであれば、別のディレクトリに移動
-        shutil.copy(image_path, nsfw_dir)
+        # NSFW画像を保存するためのディレクトリが存在しない場合は作成する
+        if not os.path.exists(nsfw_dir):
+            os.makedirs(nsfw_dir)
+            print("Created directory: {}".format(nsfw_dir))
+            # 画像がNSFWであれば、別のディレクトリに移動
+        try:
+            shutil.copy(image_path, nsfw_dir)
+            print("NSFW image found: {}".format(image_path))
+        except shutil.SameFileError:
+            print("Same file error: {}".format(image_path))
+        except FileNotFoundError:
+            print("File not found: {}".format(image_path))
+        except PermissionError:
+            print("Permission denied: {}".format(image_path))
 
 # プログレスバーを終了
 filter_bar.close()
 
 print("Done!")
-コマンドオプション--thread Nを追加して--thread Nが指定されたらmultiprocessingで並列処理したい。Nはプロセス数
+print("Total nsfw images: {}".format(len(os.listdir(nsfw_dir))))
