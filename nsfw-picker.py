@@ -49,10 +49,6 @@ print("Total images: {}".format(len(image_paths)))
 # 拡張子が許可されているものか
 allow_extensions = ["jpg", "png", "jpeg"]
 
-# NSFW画像を保存するためのディレクトリが存在しない場合は作成する
-if not os.path.exists(nsfw_dir):
-    os.makedirs(nsfw_dir)
-
 print("Filtering NSFW images...")
 
 # 全ての画像を順番に判定し、NSFW画像であれば別のディレクトリに移動
@@ -82,8 +78,20 @@ for image_path in filter_bar:
     is_nsfw = n2.predict_image(image_path)
 
     if is_nsfw >= float(threshold):
-        # 画像がNSFWであれば、別のディレクトリに移動
-        shutil.copy(image_path, nsfw_dir)
+        # NSFW画像を保存するためのディレクトリが存在しない場合は作成する
+        if not os.path.exists(nsfw_dir):
+            os.makedirs(nsfw_dir)
+            print("Created directory: {}".format(nsfw_dir))
+            # 画像がNSFWであれば、別のディレクトリに移動
+        try:
+            shutil.copy(image_path, nsfw_dir)
+            print("NSFW image found: {}".format(image_path))
+        except shutil.SameFileError:
+            print("Same file error: {}".format(image_path))
+        except FileNotFoundError:
+            print("File not found: {}".format(image_path))
+        except PermissionError:
+            print("Permission denied: {}".format(image_path))
 
 # プログレスバーを終了
 filter_bar.close()
