@@ -1,9 +1,10 @@
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
 from tqdm import tqdm
 import opennsfw2 as n2
 import shutil
 from configparser import ConfigParser
+from nsfw_detector import predict
 
 # 設定を読み込む
 config = ConfigParser()
@@ -65,23 +66,25 @@ for image_path in filter_bar:
         continue
 
     # 画像がNSFWであるかどうかを判定
-    is_nsfw = n2.predict_image(image_path)
-
-    if is_nsfw >= float(threshold):
-        # NSFW画像を保存するためのディレクトリが存在しない場合は作成する
-        if not os.path.exists(nsfw_dir):
-            os.makedirs(nsfw_dir)
-            print("Created directory: {}".format(nsfw_dir))
-            # 画像がNSFWであれば、別のディレクトリに移動
-        try:
-            shutil.copy(image_path, nsfw_dir)
-            print("NSFW image found: {}".format(image_path))
-        except shutil.SameFileError:
-            print("Same file error: {}".format(image_path))
-        except FileNotFoundError:
-            print("File not found: {}".format(image_path))
-        except PermissionError:
-            print("Permission denied: {}".format(image_path))
+    model = predict.load_model('./mobilenet_v2_140_224/saved_model.h5')
+    nsfw = predict.classify(model, image_path)
+    nsfw_drawings = [nsfw.get('drawings') for nsfw in nsfw.values()]
+    nsfw_hentai = [nsfw.get('hentai') for nsfw in nsfw.values()]
+    nsfw_neutral = [nsfw.get('neutral') for nsfw in nsfw.values()]
+    nsfw_porn = [nsfw.get('porn') for nsfw in nsfw.values()]
+    nsfw_sexy = [nsfw.get('sexy') for nsfw in nsfw.values()]
+    if nsfw_neutral[0] > 0.5:
+        shutil.copy(image_path, nsfw_dir+"neutral/")
+    elif nsfw_drawings[0] > 0.5:
+        shutil.copy(image_path, nsfw_dir+"drawings/")
+    elif nsfw_hentai[0] > 0.5:
+        shutil.copy(image_path, nsfw_dir+"hentai/")
+    elif nsfw_neutral[0] > 0.5:
+        shutil.copy(image_path, nsfw_dir+"neutral/")
+    elif nsfw_porn[0] > 0.5:
+        shutil.copy(image_path, nsfw_dir+"porn/")
+    elif nsfw_sexy[0] > 0.5:
+        shutil.copy(image_path, nsfw_dir+"sexy/")
 
 # プログレスバーを終了
 filter_bar.close()
