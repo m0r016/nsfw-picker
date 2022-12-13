@@ -1,5 +1,5 @@
 # nsfw-picker
-nsfw-pickerは、[opennsfw2](https://github.com/bhky/opennsfw2)を使用して、NSFWなら画像を別のディレクトリに保存します。
+nsfw-pickerは、[nsfw_model](https://github.com/GantMan/nsfw_model)を使用して、NSFWなら画像を別のディレクトリに保存します。
 
 # 前提条件
 - Python 3
@@ -7,7 +7,8 @@ nsfw-pickerは、[opennsfw2](https://github.com/bhky/opennsfw2)を使用して�
 - ConfigParser
 - shutil
 - tqdm
-yy
+- tensorflow
+- nsfw_detector
 
 # セットアップ
 1. このリポジトリをクローンまたはダウンロードします。

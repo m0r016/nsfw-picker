@@ -69,7 +69,7 @@ for image_path in image_paths:
     model = tf.keras.models.load_model(
         "./mobilenet_v2_140_224/saved_model.h5",
         custom_objects={"KerasLayer": tensorflow_hub.KerasLayer},
-        compile=False
+        compile=False,
     )
 
     nsfw = predict.classify(model, image_path)
@@ -87,25 +87,67 @@ for image_path in image_paths:
         if not os.path.exists(nsfw_drawings_dir):
             os.makedirs(nsfw_drawings_dir)
             print("Created directory: {}".format(nsfw_drawings_dir))
+            try:
+                shutil.copy(image_path, nsfw_drawings_dir)
+                print("NSFW image found: {}".format(image_path))
+            except shutil.SameFileError:
+                print("Same file error: {}".format(image_path))
+            except FileNotFoundError:
+                print("File not found: {}".format(image_path))
+            except PermissionError:
+                print("Permission denied: {}".format(image_path))
+
             shutil.copy(image_path, nsfw_drawings_dir)
     elif nsfw_hentai[0] > float(threshold):
         if not os.path.exists(nsfw_hentai_dir):
             os.makedirs(nsfw_hentai_dir)
             print("Created directory: {}".format(nsfw_hentai_dir))
-            shutil.copy(image_path, nsfw_hentai_dir)
+            try:
+                shutil.copy(image_path, nsfw_hentai_dir)
+                print("NSFW image found: {}".format(image_path))
+            except shutil.SameFileError:
+                print("Same file error: {}".format(image_path))
+            except FileNotFoundError:
+                print("File not found: {}".format(image_path))
+            except PermissionError:
+                print("Permission denied: {}".format(image_path))
     elif nsfw_neutral[0] > float(threshold):
         if not os.path.exists(nsfw_neutral_dir):
             os.makedirs(nsfw_neutral_dir)
             print("Created directory: {}".format(nsfw_neutral_dir))
-            shutil.copy(image_path, nsfw_neutral_dir)
+            try:
+                shutil.copy(image_path, nsfw_neutral_dir)
+                print("NSFW image found: {}".format(image_path))
+            except shutil.SameFileError:
+                print("Same file error: {}".format(image_path))
+            except FileNotFoundError:
+                print("File not found: {}".format(image_path))
+            except PermissionError:
+                print("Permission denied: {}".format(image_path))
     elif nsfw_porn[0] > float(threshold):
         if not os.path.exists(nsfw_porn_dir):
             os.makedirs(nsfw_porn_dir)
             print("Created directory: {}".format(nsfw_porn_dir))
-            shutil.copy(image_path, nsfw_porn_dir)
+            try:
+                shutil.copy(image_path, nsfw_porn_dir)
+                print("NSFW image found: {}".format(image_path))
+            except shutil.SameFileError:
+                print("Same file error: {}".format(image_path))
+            except FileNotFoundError:
+                print("File not found: {}".format(image_path))
+            except PermissionError:
+                print("Permission denied: {}".format(image_path))
     elif nsfw_sexy[0] > float(threshold):
         if not os.path.exists(nsfw_sexy_dir):
             os.makedirs(nsfw_sexy_dir)
             print("Created directory: {}".format(nsfw_sexy_dir))
-            shutil.copy(image_path, nsfw_sexy_dir)
+            try:
+                shutil.copy(image_path, nsfw_sexy_dir)
+                print("NSFW image found: {}".format(image_path))
+            except shutil.SameFileError:
+                print("Same file error: {}".format(image_path))
+            except FileNotFoundError:
+                print("File not found: {}".format(image_path))
+            except PermissionError:
+                print("Permission denied: {}".format(image_path))
 print("Done!")

@@ -2,3 +2,5 @@ opennsfw2
 ConfigParser
 shutil
 tqdm
+tensorflow
+nsfw_detector
